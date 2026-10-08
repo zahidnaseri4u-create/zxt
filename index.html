@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0B0E14">
+  <meta name="color-scheme" content="dark">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <title>ZxT · P&amp;L Journal</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="./">Zx<span>T</span></a>
+      <nav class="month-nav" aria-label="Month">
+        <button class="icon-btn" id="prev" aria-label="Previous month">‹</button>
+        <h1 id="month-label"></h1>
+        <button class="icon-btn" id="next" aria-label="Next month">›</button>
+      </nav>
+      <button class="icon-btn" id="open-settings" aria-label="Settings &amp; backup">⚙</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="stats" id="stats"></section>
+
+    <section class="card calendar" aria-label="P&L calendar">
+      <div class="cal-head">
+        <h2>Calendar</h2>
+        <button class="btn ghost sm" id="go-today" hidden>This month</button>
+      </div>
+      <div class="cal-grid cal-dow">
+        <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div class="wk">Sat</div><div class="wk">Sun</div><div class="wkhead">Week</div>
+      </div>
+      <div id="weeks"></div>
+      <div class="cal-foot"><span>Monthly total</span><strong id="month-total"></strong></div>
+    </section>
+
+    <section class="card">
+      <div class="cal-head">
+        <h2>Monthly P&amp;L</h2>
+        <div class="year-nav">
+          <button class="icon-btn sm" id="prev-year" aria-label="Previous year">‹</button>
+          <b id="year-label"></b>
+          <button class="icon-btn sm" id="next-year" aria-label="Next year">›</button>
+        </div>
+      </div>
+      <div class="months" id="months"></div>
+      <div class="cal-foot"><span id="year-total-label"></span><strong id="year-total"></strong></div>
+    </section>
+
+    <section class="card">
+      <div class="cal-head"><h2>By setup</h2><span class="hint" id="setup-month"></span></div>
+      <div class="setups" id="setups"></div>
+    </section>
+  </main>
+
+  <button class="fab" id="fab" aria-label="Add trade">+</button>
+
+  <!-- Day / add / edit sheet -->
+  <dialog id="day-dialog" class="dialog">
+    <div class="dlg-head">
+      <div>
+        <h3 id="dlg-title"></h3>
+        <span id="dlg-total" class="dlg-total"></span>
+      </div>
+      <button type="button" class="icon-btn" data-close aria-label="Close">✕</button>
+    </div>
+
+    <ul id="dlg-list" class="trade-list"></ul>
+
+    <form id="trade-form" class="dlg-form" autocomplete="off">
+      <div class="dlg-form-title">
+        <span id="form-title">Add a trade</span>
+        <button type="button" class="link" id="cancel-edit" hidden>Cancel edit</button>
+      </div>
+
+      <div class="field f-pnl">
+        <label for="f-pnl">P&amp;L</label>
+        <div class="pnl-input">
+          <span class="cur">$</span>
+          <input id="f-pnl" name="pnl" type="text" inputmode="decimal" placeholder="-50 or +150" autocomplete="off">
+          <button type="button" class="flip" id="flip" aria-label="Flip sign">±</button>
+        </div>
+      </div>
+
+      <div class="field f-type">
+        <label>Setup</label>
+        <div class="seg" role="radiogroup" aria-label="Trade type">
+          <input type="radio" name="type" id="t-gxt" value="GXT" checked><label for="t-gxt">GXT</label>
+          <input type="radio" name="type" id="t-ifvg" value="IFVG"><label for="t-ifvg">IFVG</label>
+        </div>
+      </div>
+
+      <div class="field f-reason">
+        <label for="f-reason">Reason <em>optional</em></label>
+        <input id="f-reason" name="reason" type="text" maxlength="500" placeholder="Why did you take it?" autocomplete="off">
+      </div>
+
+      <div class="field f-date">
+        <label for="f-date">Date</label>
+        <input id="f-date" name="trade_date" type="date" required>
+      </div>
+
+      <button type="submit" class="btn primary" id="form-submit">Add trade</button>
+    </form>
+  </dialog>
+
+  <!-- Settings / backup sheet -->
+  <dialog id="settings-dialog" class="dialog">
+    <div class="dlg-head">
+      <div><h3>Backup &amp; data</h3><span class="hint" id="data-summary"></span></div>
+      <button type="button" class="icon-btn" data-close aria-label="Close">✕</button>
+    </div>
+    <div class="set-body">
+      <p class="set-note">Your trades are stored <b>only on this phone</b>. Export a backup now and then — if you clear Chrome's data or lose the phone, the backup is the only way to get them back.</p>
+      <button class="btn primary block" id="export-btn">Export backup</button>
+      <button class="btn ghost block" id="import-btn">Import backup</button>
+      <input type="file" id="import-file" accept="application/json,.json" hidden>
+      <button class="btn danger block" id="wipe-btn">Delete all data</button>
+      <p class="set-note small" id="persist-note"></p>
+    </div>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
