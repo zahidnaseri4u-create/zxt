@@ -1,5 +1,5 @@
 // Offline cache. Bump VERSION when you change any file so phones pick up the update.
-const VERSION = 'zxt-v1';
+const VERSION = 'zxt-v2';
 const FILES = [
   './', './index.html', './css/app.css', './js/app.js',
   './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png',

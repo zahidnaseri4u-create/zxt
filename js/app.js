@@ -70,6 +70,13 @@
     }
     return sign + '$' + body;
   }
+
+  /** Same as money(v, true) but wraps the "$" so phones can hide it inside tiny day boxes. */
+  function moneyCell(v) {
+    const m = money(v, true);
+    if (m === '$0') return '<span class="cu">$</span>0';
+    return m.charAt(0) + '<span class="cu">$</span>' + m.slice(2);
+  }
   const tone = (v) => { v = round2(v); return v > 0 ? 'pos' : v < 0 ? 'neg' : 'zero'; };
   const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
 
@@ -178,7 +185,7 @@
         const types = [...new Set(list.map((t) => t.type))];
         cells += `<button type="button" class="${cls.join(' ')}" data-date="${key}" aria-label="${key}, ${list.length ? money(pnl) : 'no trades'}">
             <span class="num">${cursor.getDate()}</span>
-            ${list.length ? `<span class="amt">${money(pnl, true)}</span>
+            ${list.length ? `<span class="amt">${moneyCell(pnl)}</span>
             <span class="meta">${plural(list.length, 'trade')} ${types.map((t) => `<i class="tag ${t.toLowerCase()}">${t}</i>`).join('')}</span>` : ''}
           </button>`;
         cursor = addDays(cursor, 1);
